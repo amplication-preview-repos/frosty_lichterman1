@@ -9,5 +9,25 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-class CustomerUpdateInput {}
+import { InputType, Field } from "@nestjs/graphql";
+import { ApiProperty } from "@nestjs/swagger";
+import { OrderUpdateManyWithoutCustomersInput } from "./OrderUpdateManyWithoutCustomersInput";
+import { ValidateNested, IsOptional } from "class-validator";
+import { Type } from "class-transformer";
+
+@InputType()
+class CustomerUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: () => OrderUpdateManyWithoutCustomersInput,
+  })
+  @ValidateNested()
+  @Type(() => OrderUpdateManyWithoutCustomersInput)
+  @IsOptional()
+  @Field(() => OrderUpdateManyWithoutCustomersInput, {
+    nullable: true,
+  })
+  orders?: OrderUpdateManyWithoutCustomersInput;
+}
+
 export { CustomerUpdateInput as CustomerUpdateInput };

@@ -17,7 +17,11 @@ import { Customer } from "./Customer";
 import { CustomerCountArgs } from "./CustomerCountArgs";
 import { CustomerFindManyArgs } from "./CustomerFindManyArgs";
 import { CustomerFindUniqueArgs } from "./CustomerFindUniqueArgs";
+import { CreateCustomerArgs } from "./CreateCustomerArgs";
+import { UpdateCustomerArgs } from "./UpdateCustomerArgs";
 import { DeleteCustomerArgs } from "./DeleteCustomerArgs";
+import { OrderFindManyArgs } from "../../order/base/OrderFindManyArgs";
+import { Order } from "../../order/base/Order";
 import { CustomerService } from "../customer.service";
 @graphql.Resolver(() => Customer)
 export class CustomerResolverBase {
@@ -51,6 +55,35 @@ export class CustomerResolverBase {
   }
 
   @graphql.Mutation(() => Customer)
+  async createCustomer(
+    @graphql.Args() args: CreateCustomerArgs
+  ): Promise<Customer> {
+    return await this.service.createCustomer({
+      ...args,
+      data: args.data,
+    });
+  }
+
+  @graphql.Mutation(() => Customer)
+  async updateCustomer(
+    @graphql.Args() args: UpdateCustomerArgs
+  ): Promise<Customer | null> {
+    try {
+      return await this.service.updateCustomer({
+        ...args,
+        data: args.data,
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new GraphQLError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
+  @graphql.Mutation(() => Customer)
   async deleteCustomer(
     @graphql.Args() args: DeleteCustomerArgs
   ): Promise<Customer | null> {
@@ -64,5 +97,19 @@ export class CustomerResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [Order], { name: "orders" })
+  async findOrders(
+    @graphql.Parent() parent: Customer,
+    @graphql.Args() args: OrderFindManyArgs
+  ): Promise<Order[]> {
+    const results = await this.service.findOrders(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 }

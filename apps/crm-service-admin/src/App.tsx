@@ -13,14 +13,22 @@ import { LeadList } from "./lead/LeadList";
 import { LeadCreate } from "./lead/LeadCreate";
 import { LeadEdit } from "./lead/LeadEdit";
 import { LeadShow } from "./lead/LeadShow";
-import { CustomerList } from "./customer/CustomerList";
-import { CustomerCreate } from "./customer/CustomerCreate";
-import { CustomerEdit } from "./customer/CustomerEdit";
-import { CustomerShow } from "./customer/CustomerShow";
 import { ContactList } from "./contact/ContactList";
 import { ContactCreate } from "./contact/ContactCreate";
 import { ContactEdit } from "./contact/ContactEdit";
 import { ContactShow } from "./contact/ContactShow";
+import { CustomerList } from "./customer/CustomerList";
+import { CustomerCreate } from "./customer/CustomerCreate";
+import { CustomerEdit } from "./customer/CustomerEdit";
+import { CustomerShow } from "./customer/CustomerShow";
+import { ProductList } from "./product/ProductList";
+import { ProductCreate } from "./product/ProductCreate";
+import { ProductEdit } from "./product/ProductEdit";
+import { ProductShow } from "./product/ProductShow";
+import { OrderList } from "./order/OrderList";
+import { OrderCreate } from "./order/OrderCreate";
+import { OrderEdit } from "./order/OrderEdit";
+import { OrderShow } from "./order/OrderShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -62,6 +70,13 @@ const App = (): React.ReactElement => {
           show={LeadShow}
         />
         <Resource
+          name="Contact"
+          list={ContactList}
+          edit={ContactEdit}
+          create={ContactCreate}
+          show={ContactShow}
+        />
+        <Resource
           name="Customer"
           list={CustomerList}
           edit={CustomerEdit}
@@ -69,11 +84,18 @@ const App = (): React.ReactElement => {
           show={CustomerShow}
         />
         <Resource
-          name="Contact"
-          list={ContactList}
-          edit={ContactEdit}
-          create={ContactCreate}
-          show={ContactShow}
+          name="Product"
+          list={ProductList}
+          edit={ProductEdit}
+          create={ProductCreate}
+          show={ProductShow}
+        />
+        <Resource
+          name="Order"
+          list={OrderList}
+          edit={OrderEdit}
+          create={OrderCreate}
+          show={OrderShow}
         />
       </Admin>
     </div>
